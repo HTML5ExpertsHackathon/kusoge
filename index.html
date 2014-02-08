@@ -52,7 +52,8 @@
           map.image = game.assets["img/map2.gif"];
           map.loadData(blocks);
           
-
+          //osamum wrote. サウンドの読み込み
+          helper.initSound();
 
           var bear = new Sprite(PLAYER_SIZE, PLAYER_SIZE);
           bear.image = game.assets["img/chara1.png"];
@@ -109,6 +110,7 @@
             for (var i = 0; i < coinCount; i++) {
                 if (bear.intersect(helper.ctrl_coins[i])) {
                     helper.ctrl_coins[i].y = -40;
+                    helper.sound_bar_hit.play();
                     helper.got_coins_count++;
                     helper.setScoreLabel(helper.got_coins_count);
                 }
