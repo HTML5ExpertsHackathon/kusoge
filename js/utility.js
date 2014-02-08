@@ -14,6 +14,13 @@
 
     got_coins_count: 0,
 
+    loadBackGroundPicture: function (game) {
+        var bgPicture = new Sprite(320, 320);
+        bgPicture.image = game.assets["img/back.png"];
+        bgPicture.x = 0;
+        bgPicture.y = 0;
+        game.rootScene.addChild(bgPicture);
+    },
     addLabel: function () {
         var ctrl_scoreLabel = helper.utility.createLabel("SCORE : 0",
                 helper.SCORE_LABEL_FONT,
