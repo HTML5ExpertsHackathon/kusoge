@@ -1,0 +1,31 @@
+<!doctype>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="libs/jquery-2.1.0.min.js"></script>
+    <script src="libs/peer.js"></script>
+    <script src="libs/svm.js"></script>
+
+    <script src="models/clap.js"></script>
+    <script src="models/whistle.js"></script>
+
+    <script src="javascripts/VoiceAnalyzer.js"></script>
+    <script src="javascripts/Classifier.js"></script>
+  </head>
+  <body>
+    <script src="javascripts/script.js"></script>
+
+    <div id="current" class="box">
+      <p>sum : <span id=sum></span></p>
+      <canvas id="fft"></canvas>
+      <canvas id="fft_delta"></canvas>
+      <canvas id="pcm"></canvas>
+    </div>
+
+    <div id="clap">...</div>
+    <div id="whistle">...</div>
+
+
+  </body>
+</html>
