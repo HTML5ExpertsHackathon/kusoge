@@ -53,6 +53,8 @@ var VoiceAnalyzer;
     this.mediastreamsource.connect(this.analyzer);
     this.fftSize = this.analyzer.fftSize
     // this.deltaFFT = new Uint8Array(this.fftSize / 2);
+    //
+    console.log("VoiceAnalyzer started...");
 
     this.getDatas();
     // this.analyzer.connect(this.audioContext.destination);

@@ -62,9 +62,9 @@ window.onunload = window.onbeforeunload = function(e) {
 
 
 
-var address = "peerserver.skyway.io";
+var address = location.host.split(":")[0]; // "peerserver.skyway.io";
 var port = "9000";
-var key = 'sacdj23r2fjx7q93f';
+var key = "peerjs"; // 'sacdj23r2fjx7q93f';
 
 peerjsLauncher(address, port, key);
 
