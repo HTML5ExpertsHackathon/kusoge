@@ -53,6 +53,8 @@
           var JUMP_POWER = 9;
           var GRAVITY = 0.5;
 
+          var stageWidth = blocks[0].length * MAP_SIZE;
+
           var map = new Map(MAP_SIZE, MAP_SIZE);
           map.image = game.assets["img/map2.gif"];
           map.loadData(blocks);
