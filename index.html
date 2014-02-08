@@ -12,7 +12,7 @@
       var startKey = false;
       window.addEventListener('touchstart', function(e){
         if ( !startKey ) {
-          startkey = true;
+          startKey = true;
         } else {
           jumpKey = true;
         }
@@ -22,7 +22,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("img/chara1.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3");
+        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -60,7 +60,7 @@
           map.loadData(blocks);
           
           var bear = new Sprite(PLAYER_SIZE, PLAYER_SIZE);
-          bear.image = game.assets["img/chara1.png"];
+          bear.image = game.assets["image/chara.png"];
           bear.x = MAP_SIZE * 3;
           bear.vx = 0;
           bear.vy = MAP_SIZE * 6;
