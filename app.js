@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , https = require('https')
+  , http = require('http')
   , path = require('path')
   , fs = require('fs')
   , PeerServer = require('peer').PeerServer;
@@ -31,7 +31,7 @@ if ('development' == app.get('env')) {
 }
 
 // start https server
-https.createServer(options, app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
@@ -39,8 +39,4 @@ https.createServer(options, app).listen(app.get('port'), function(){
 var peer_server = new PeerServer({
   port: 9000,
   key: 'peerjs',
-  ssl: {
-    key: fs.readFileSync('keys/key.pem'),
-    cert: fs.readFileSync('keys/cert.pem')
-  }
 });
