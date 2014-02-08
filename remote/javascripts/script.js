@@ -35,12 +35,10 @@ $(function(){
     var predict = classifier.predict(d);
     if(predict.clap > 0) {
       changeAciton("clap");
-      connect.send("clap");
     }
 
     if(predict.whistle > 0) {
       changeAciton("whistle");
-      connect.send("whistle");
     }
   });
 });
