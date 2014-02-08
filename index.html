@@ -9,8 +9,13 @@
       enchant();
       
       var jumpKey = false;
+      var startKey = false;
       window.addEventListener('touchstart', function(e){
-        jumpKey = true;
+        if ( !startKey ) {
+          startkey = true;
+        } else {
+          jumpKey = true;
+        }
       }, false);
 
       window.onload = function() {
@@ -60,7 +65,11 @@
           bear.pose = 0;
           bear.jumping = false;
           bear.addEventListener(Event.ENTER_FRAME, function(e) {
-            var ax = GAME_SPEED;
+            var ax = 0;
+            if ( startKey || game.input.right ) {
+              startKey = true;
+              ax = GAME_SPEED;
+            }
             if (ax != 0) {
               if (game.frame % 3 == 0) {
                   bear.pose++;
@@ -127,6 +136,23 @@
               game.pushScene(scene);
 
             }
+<<<<<<< HEAD
+=======
+
+            console.log(stage.x,bear.x);
+            if ( stageWidth + stage.x < (game.width - bear.width)) {
+
+              var scene = new Scene();
+
+              // ゲームオーバー画像を設定
+              var gameoverImage = new Sprite(189, 97);                   // スプライトを作る
+              gameoverImage.image = game.assets["img/gameover.png"];  // 画像を設定
+              gameoverImage.x = (game.width - gameoverImage.width) / 2;                                     // 横位置調整
+              gameoverImage.y = (game.height - gameoverImage.height) / 2;  
+              scene.addChild(gameoverImage); // シーンに追加
+              game.pushScene(scene);
+            }
+>>>>>>> 8344f419770ebb842d522ef71bf3fbfeafcd092d
           });
           
 
@@ -134,7 +160,13 @@
           stage.addChild(map);
           stage.addChild(bear);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
+<<<<<<< HEAD
             stage.x -= GAME_SPEED;
+=======
+            if ( startKey && stageWidth + stage.x > game.width) {
+              stage.x -= GAME_SPEED;
+            }
+>>>>>>> 8344f419770ebb842d522ef71bf3fbfeafcd092d
           });
           
           game.rootScene.addChild(stage);
