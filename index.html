@@ -136,9 +136,6 @@
               game.pushScene(scene);
 
             }
-<<<<<<< HEAD
-=======
-
             // console.log(stage.x,bear.x);
             if ( stage.x + bear.x > (game.width + bear.width) / 2) {
 
@@ -152,7 +149,6 @@
               scene.addChild(gameoverImage); // シーンに追加
               game.pushScene(scene);
             }
->>>>>>> 8344f419770ebb842d522ef71bf3fbfeafcd092d
           });
           
 
@@ -160,13 +156,9 @@
           stage.addChild(map);
           stage.addChild(bear);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
-<<<<<<< HEAD
-            stage.x -= GAME_SPEED;
-=======
             if ( startKey && stageWidth + stage.x > game.width) {
               stage.x -= GAME_SPEED;
             }
->>>>>>> 8344f419770ebb842d522ef71bf3fbfeafcd092d
           });
           
           game.rootScene.addChild(stage);
