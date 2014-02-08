@@ -9,7 +9,14 @@
     SCORE_LABEL_POSITION_Y: 5,
     ctrl_scoreLabel: null,
     ctrl_coins: [],
+
+    sound_get_coin: null,
+
     got_coins_count: 0,
+
+    initSound: function () {
+        helper.sound_bar_hit = new Audio("sound/coin05.mp3");
+    },
 
     addLabel: function () {
         var ctrl_scoreLabel = helper.utility.createLabel("SCORE : 0",
