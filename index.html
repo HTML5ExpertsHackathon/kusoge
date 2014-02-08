@@ -10,8 +10,13 @@
       enchant();
       
       var jumpKey = false;
+      var startKey = false;
       window.addEventListener('touchstart', function(e){
-        jumpKey = true;
+        if ( !startKey ) {
+          startkey = true;
+        } else {
+          jumpKey = true;
+        }
       }, false);
 
       window.onload = function() {
@@ -67,7 +72,11 @@
           bear.pose = 0;
           bear.jumping = false;
           bear.addEventListener(Event.ENTER_FRAME, function(e) {
-            var ax = GAME_SPEED;
+            var ax = 0;
+            if ( startKey || game.input.right ) {
+              startKey = true;
+              ax = GAME_SPEED;
+            }
             if (ax != 0) {
               if (game.frame % 3 == 0) {
                   bear.pose++;
@@ -135,7 +144,7 @@
             }
 
             console.log(stage.x,bear.x);
-            if ( stageWidth + stage.x < (game.width * 1.5)) {
+            if ( stageWidth + stage.x < (game.width - bear.width)) {
 
               var scene = new Scene();
 
@@ -154,7 +163,7 @@
           stage.addChild(map);
           stage.addChild(bear);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
-            if ( stageWidth + stage.x > game.width) {
+            if ( startKey && stageWidth + stage.x > game.width) {
               stage.x -= GAME_SPEED;
             }
           });
