@@ -18,7 +18,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("img/chara1.png", "img/map2.gif", "img/gameover.png");
+        game.preload("img/chara1.png", "img/map2.gif", "img/gameover.png", "img/coin.png");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -103,7 +103,17 @@
             }
             bear.x = dx - 5;
             bear.y = dy;
-            // console.log(bear.x + stage.x, bear.y -192);
+              // console.log(bear.x + stage.x, bear.y -192);
+
+            //osamum wrote コインを取得する
+            var coinCount = helper.ctrl_coins.length;
+            for (var i = 0; i < coinCount; i++) {
+                if (bear.intersect(helper.ctrl_coins[i])) {
+                    helper.ctrl_coins[i].y = -40;
+                    helper.got_coins_count++;
+                    helper.setScoreLabel(helper.got_coins_count);
+                }
+            }
 
             if ( bear.x + stage.x + bear.width < 0 || bear.y - bear.height > game.height ) {
               // console.log('gameover!');
@@ -116,9 +126,11 @@
               gameoverImage.y = (game.height - gameoverImage.height) / 2;  
               scene.addChild(gameoverImage); // シーンに追加
               game.pushScene(scene);
+
             }
           });
           
+
           var stage = new Group();
           stage.addChild(map);
           stage.addChild(bear);
@@ -127,7 +139,14 @@
           });
           
           game.rootScene.addChild(stage);
+
+        　//osamum wrote.
           helper.addLabel();
+          helper.addCoin(game, stage, 300, 3);
+          helper.addCoin(game, stage, 800, 3);
+          helper.addCoin(game, stage, 1500, 2);
+          helper.addCoin(game, stage, 1800, 2);
+          helper.addCoin(game, stage, 2500, 3)
         }
         game.start();
       }
