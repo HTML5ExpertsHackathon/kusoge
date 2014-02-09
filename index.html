@@ -147,7 +147,7 @@
               bear.jumping = false;
               bear.falling = false;
             } else {
-              bear.falling = true;
+                bear.falling = true;
             }
             if (map.hitTest(dx + bear.width, dy)) {
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
@@ -212,6 +212,9 @@
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
               game.pushScene(scene);
+              
+              //osamu wrote ゲームクリア音
+              helper.sound_gameClear.play();
             }
           });
           

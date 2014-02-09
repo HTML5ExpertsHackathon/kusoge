@@ -17,10 +17,14 @@
     ASSET_SOUND_BGM: "sound/bgm1.mp3",
     ASSET_SOUND_GANEOVER: "sound/gameover.mp3",
     ASSET_SOUND_HIT: "sound/hit.wav",
+    ASSET_SOUND_CLEAR: "sound/clear.mp3",
+    ASSET_SOUND_FALL: "sound/fall.wav",
 
     sound_get_coin: null,
     sound_game_bgm: null,
     sound_gameOver: null,
+    sound_gameClear: null,
+    sound_playerFall: null,
 
     got_coins_count: 0,
 
@@ -29,6 +33,8 @@
         helper.sound_game_bgm = new Audio(helper.ASSET_SOUND_BGM);
         helper.sound_gameOver = new Audio(helper.ASSET_SOUND_GANEOVER);
         helper.sound_hit = new Audio(helper.ASSET_SOUND_HIT);
+        helper.sound_gameClear = new Audio(helper.ASSET_SOUND_CLEAR);
+        helper.sound_playerFall = new Audio(helper.ASSET_SOUND_FALL);
     },
 
     loadBackGroundPicture: function (game) {
