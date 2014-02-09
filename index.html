@@ -28,7 +28,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png");
+        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "img/bird.jpg");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -80,7 +80,11 @@
             var ax = 0;
             if ( startKey || game.input.right ) {
               startKey = true;
-              ax = GAME_SPEED;
+              if ( stage.x + bear.x < MAP_SIZE * 3 ) {
+                ax = GAME_SPEED * 1.2;
+              } else {
+                ax = GAME_SPEED;
+              }
             }
             if (ax != 0) {
               if (game.frame % 3 == 0) {
@@ -113,17 +117,20 @@
             }
             bear.vy += GRAVITY;
             
-            var dx = bear.x + bear.vx + 5;
+            var dx = bear.x + bear.vx;
             var dy = bear.y + bear.vy;
-            if (map.hitTest(dx, dy + bear.height) || map.hitTest(dx + bear.width - 10, dy)) {
+            if (map.hitTest(dx, dy + bear.height) ) {
               dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
               bear.vy = 0;
               bear.jumping = false;
+              console.log('y hit');
             }
-            if (map.hitTest(dx + bear.width - 10, dy)) {
+            if (map.hitTest(dx + bear.width, dy)) {
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
+              console.log('x hit');
             }
-            bear.x = dx - 5;
+            console.log(dx, dy);
+            bear.x = dx;
             bear.y = dy;
               // console.log(bear.x + stage.x, bear.y -192);
 
@@ -155,6 +162,8 @@
 
             }
 
+            // console.log(stage.x + bear.x);
+
             // ゲームクリア
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
 
@@ -170,12 +179,56 @@
             }
           });
           
+          var bird = new Sprite(92, 66);
+          bird.image = game.assets["img/bird.jpg"];
+          bird.x = MAP_SIZE * 3;
+          bird.vx = 0;
+          bird.vy = MAP_SIZE * 6;
+          bird.y = MAP_SIZE * 3;
+          bird.pose = 0;
+          bird.jumping = false;
+          bird.count = 0;
+          bird.addEventListener(Event.ENTER_FRAME, function(e) {
+            var ax = 0;
+            if ( startKey || game.input.right ) {
+              startKey = true;
+              ax = GAME_SPEED;
+            }
+            if (ax != 0) {
+              if (game.frame % 3 == 0) {
+                  this.pose++;
+                  this.pose %= 2;
+              }
+              this.frame = this.pose + 1;
+              this.count++;
+            } else {
+              this.frame = 0;
+            }
+            this.vx = ax;
+
+            var dx = this.x + this.vx + 5;
+            var dy = this.y + this.vy;
+            // if (map.hitTest(dx, dy + bear.height) || map.hitTest(dx + bear.width - 10, dy)) {
+            //   dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
+            //   bear.vy = 0;
+            //   bear.jumping = false;
+            // }
+            // if (map.hitTest(dx + bear.width - 10, dy)) {
+            //   dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
+            // }
+            this.x = dx - 5;
+            this.y = MAP_SIZE * (3 + 2 * Math.sin(Math.PI * this.count / 10));
+            
+
+          }.bind(bird));
+ 
 
           var stage = new Group();
           stage.addChild(map);
           stage.addChild(bear);
+          stage.addChild(bird);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
-            if ( startKey && stageWidth + stage.x > game.width) {
+            if ( startKey && stageWidth + stage.x > game.width ) {
               stage.x -= GAME_SPEED;
             }
 
