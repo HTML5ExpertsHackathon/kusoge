@@ -43,7 +43,11 @@ var peerjsLauncher = function(address, port, key){
             break;
           case 'whistle': 
             console.log('fire!!');
-            startKey = true;
+            if(startKey) {
+              actionKey = true
+            } else {
+              startKey = true;
+            }
             break;
           default:
             break;
