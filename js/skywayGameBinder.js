@@ -36,16 +36,19 @@ var peerjsLauncher = function(address, port, key){
     console.log("connected", c);
     c.on('data', function(data) {
       console.log(data);
-      switch(data){
-        case 'clap': 
-          jumpKey = true;
-          break;
-        case 'whistle': 
-          console.log('fire!!');
-          break;
-        default:
-          break;
-      }
+      setTimeout(function(){
+        switch(data){
+          case 'clap': 
+            jumpKey = true;
+            break;
+          case 'whistle': 
+            console.log('fire!!');
+            startKey = true;
+            break;
+          default:
+            break;
+        }
+      }, 1000);
     });
  
   }
