@@ -132,6 +132,9 @@
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
               // console.log('x hit');
             }
+            if (dx + PLAYER_SIZE + 10 > frog.x && Math.abs(dy - frog.y) < PLAYER_SIZE * 0.8) {
+              dx -=10;
+            }
             // console.log(dx, dy);
             bear.x = dx;
             bear.y = dy;
@@ -187,6 +190,7 @@
           frog.jumping = false;
           frog.count = 0;
           frog.ddx = 1;
+          frog.jump_power = JUMP_POWER;
           frog.addEventListener(Event.ENTER_FRAME, function(e) {
             var ax = 0;
             if ( startKey || game.input.right ) {
@@ -206,7 +210,7 @@
             this.vx = ax;
 
             if(!this.jumping) {
-              this.vy = -JUMP_POWER;
+              this.vy = -this.jump_power;
               this.jumping = true;
             }
             this.vy += GRAVITY;
@@ -217,10 +221,11 @@
               dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
               this.vy = 0;
               this.jumping = false;
+              this.jump_power = JUMP_POWER + ((Math.random() * 3) | 0);
               var ddx_ = Math.random();
-              if(this.x < MAP_SIZE * 2) {
-                this.ddx = ddx_;
-              } else if(this.x > MAP_SIZE * 4) {
+              if(this.x < bear.x + MAP_SIZE / 2) {
+                this.ddx = 2;
+              } else if(this.x > bear.x + MAP_SIZE * 2) {
                 this.ddx = -1 * ddx_;
               } else {
                 this.ddx = this.ddx > 0 ? -1 * ddx_ : ddx_;
