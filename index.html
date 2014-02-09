@@ -264,7 +264,7 @@
                 } else if(this.x > bear.x + MAP_SIZE * 2) {
                   this.ddx = -1 * ddx_;
                 } else {
-                  this.ddx = this.ddx > 0 ? -1 * ddx_ : ddx_;
+                  this.ddx = this.ddx > 0 ? -0.5 * ddx_ : ddx_ * 4;
                 }
               } else {
                 this.ddx = 0;
@@ -277,6 +277,7 @@
               setTimeout(function(){
                 this.y = 0;
                 this.vy = GRAVITY;
+                this.ddx = 1.5;
                 this.x = bear.x + 20;
               }.bind(this), 500);
             }
