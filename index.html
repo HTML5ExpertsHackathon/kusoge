@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>enchant</title>
     <script type="text/javascript" src="js/enchant.min.js"></script>
+    <script src="remote/libs/peer.js"></script>
       <script src="js/utility.js"></script>
     <script type="text/javascript">
       enchant();
@@ -25,10 +26,11 @@
       }, false);
 
       window.onload = function() {
+        var isStarted = false;
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "image/map.png", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
+        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -133,7 +135,8 @@
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
               // console.log('x hit');
             }
-            if (dx + PLAYER_SIZE + 10 > frog.x && Math.abs(dy - frog.y) < PLAYER_SIZE * 0.8) {
+            if (dx + PLAYER_SIZE + 5 > frog.x && Math.abs(dy - frog.y) < PLAYER_SIZE * 0.8) {
+              frog.ddx = 0;
               dx -=10;
             }
             // console.log(dx, dy);
@@ -159,8 +162,8 @@
             if ( bear.x + stage.x + bear.width < 0 || bear.y - bear.height > game.height ) {
               var scene = new Scene();
               scene.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-              var img = new Sprite(189, 97);
-              img.image = game.assets["img/gameover.png"];
+              var img = new Sprite(212, 148);
+              img.image = game.assets["image/gameover.png"];
               img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
@@ -173,13 +176,11 @@
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
 
               var scene = new Scene();
-
-              // ゲームオーバー画像を設定
-              var img = new Sprite(189, 97);                   // スプライトを作る
-              img.image = game.assets["img/gameover.png"];  // 画像を設定
-              img.x = (game.width - img.width) / 2;                                     // 横位置調整
+              var img = new Sprite(189, 97);
+              img.image = game.assets["image/gameover.png"];
+              img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
-              scene.addChild(img); // シーンに追加
+              scene.addChild(img);
               game.pushScene(scene);
             }
           });
@@ -193,7 +194,7 @@
           frog.pose = 0;
           frog.jumping = false;
           frog.count = 0;
-          frog.ddx = 1;
+          frog.ddx = 2;
           frog.jump_power = JUMP_POWER;
           frog.addEventListener(Event.ENTER_FRAME, function(e) {
             var ax = 0;
@@ -226,13 +227,17 @@
               this.vy = 0;
               this.jumping = false;
               this.jump_power = JUMP_POWER + ((Math.random() * 3) | 0);
-              var ddx_ = Math.random();
-              if(this.x < bear.x + MAP_SIZE / 2) {
-                this.ddx = 2;
-              } else if(this.x > bear.x + MAP_SIZE * 2) {
-                this.ddx = -1 * ddx_;
+              if(startKey) {
+                var ddx_ = Math.random();
+                if(this.x < bear.x + MAP_SIZE / 2) {
+                  this.ddx = 2;
+                } else if(this.x > bear.x + MAP_SIZE * 2) {
+                  this.ddx = -1 * ddx_;
+                } else {
+                  this.ddx = this.ddx > 0 ? -1 * ddx_ : ddx_;
+                }
               } else {
-                this.ddx = this.ddx > 0 ? -1 * ddx_ : ddx_;
+                this.ddx = 0;
               }
             }
             this.x = dx + this.ddx - 5;
@@ -272,6 +277,7 @@
           helper.addCoin(game, stage, 2500, 3)
         }
         game.start();
+
       }
     </script>
     <style type="text/css">
@@ -281,4 +287,5 @@
   <body>
 
   </body>
+  <script src="js/skywayGameBinder.js"></script>
 </html>

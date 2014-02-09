@@ -24,6 +24,7 @@ $(function(){
     $("#"+str).text(str);
     setTimeout(function() {
       $("#"+str).text("...");
+      if(connect) connect.send(str);
     }, 300);
   }
 
