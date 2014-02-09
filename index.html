@@ -30,7 +30,18 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png", "sound/hit.wav");
+        game.preload(
+          "image/chara.png",
+          "image/map.png",
+          "image/gameover.png",
+          "image/clear.png",
+          "image/title.png",
+          "img/coin.png",
+          "sound/coin05.mp3",
+          "img/back.png",
+          "image/frog.png",
+          "sound/hit.wav"
+        );
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -80,10 +91,17 @@
           bear.pose = 0;
           bear.jumping = false;
           bear.falling = false;
+
+          var title = new Sprite(240, 150);
+          title.image = game.assets["image/title.png"];
+          title.x = (game.width - title.width) / 2;
+          title.y = (game.height - title.height) / 2;  
+
           bear.addEventListener(Event.ENTER_FRAME, function(e) {
             var ax = 0;
             if ( startKey || game.input.right ) {
               startKey = true;
+              title.opacity = 0;
               if ( stage.x + bear.x < MAP_SIZE * 3 ) {
                 ax = GAME_SPEED * 1.2;
               } else {
@@ -152,13 +170,22 @@
             //osamum wrote コインを取得する
             var coinCount = helper.ctrl_coins.length;
             for (var i = 0; i < coinCount; i++) {
-              if (bear.intersect(helper.ctrl_coins[i])) {
-                helper.ctrl_coins[i].y = -40;
-                var soundClone = game.assets["sound/coin05.mp3"].clone();
-                soundClone.play();
-                helper.got_coins_count++;
-                helper.setScoreLabel(helper.got_coins_count);
-              }
+                var currentCoin = helper.ctrl_coins[i];
+                if (bear.intersect(currentCoin)) {
+                    helper.ctrl_coins[i].y = -40;
+                    var soundClone = game.assets["sound/coin05.mp3"].clone();
+                    soundClone.play();
+                    helper.got_coins_count++;
+                    helper.setScoreLabel(helper.got_coins_count);
+                } else {
+                    if (game.frame % 3 == 0) {
+                        if (currentCoin.frame >= 2) {
+                            helper.ctrl_coins[i].frame = 0;
+                        } else {
+                            helper.ctrl_coins[i].frame++;
+                        }
+                    }
+                }
             }
 
             // ゲームオーバー
@@ -179,8 +206,8 @@
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
 
               var scene = new Scene();
-              var img = new Sprite(189, 97);
-              img.image = game.assets["image/gameover.png"];
+              var img = new Sprite(211, 73);
+              img.image = game.assets["image/clear.png"];
               img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
@@ -262,6 +289,7 @@
           stage.addChild(map);
           stage.addChild(bear);
           stage.addChild(frog);
+          stage.addChild(title);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
             if ( startKey && stageWidth + stage.x > game.width ) {
               stage.x -= GAME_SPEED;
