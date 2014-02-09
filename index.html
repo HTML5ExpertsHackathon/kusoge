@@ -200,6 +200,7 @@
               game.pushScene(scene);
               
             　//osamum wrote ゲームオーバーサウンド
+              helper.sound_game_bgm.pause();
               helper.sound_gameOver.play();
             }
             // ゲームクリア
@@ -214,6 +215,7 @@
               game.pushScene(scene);
               
               //osamu wrote ゲームクリア音
+              helper.sound_game_bgm.pause();
               helper.sound_gameClear.play();
             }
           });
