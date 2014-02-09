@@ -3,6 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>enchant</title>
+    <style type="text/css">
+      body { margin: 0; background: #000;}
+
+      #enchant-stage {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+        /*
+            margin: 0 auto;
+            text-align: left;
+            */
+            left: calc(50% - 190px);
+            top: 50px; /*calc(50% - 190px);*/
+           
+        }
+    </style>
+
     <script type="text/javascript" src="js/enchant.min.js"></script>
     <script src="remote/libs/peer.js"></script>
       <script src="js/utility.js"></script>
@@ -268,7 +285,7 @@
                 } else if(this.x > bear.x + MAP_SIZE * 2) {
                   this.ddx = -1 * ddx_;
                 } else {
-                  this.ddx = this.ddx > 0 ? -1 * ddx_ : ddx_;
+                  this.ddx = this.ddx > 0 ? -0.5 * ddx_ : ddx_ * 4;
                 }
               } else {
                 this.ddx = 0;
@@ -281,6 +298,7 @@
               setTimeout(function(){
                 this.y = 0;
                 this.vy = GRAVITY;
+                this.ddx = 1.5;
                 this.x = bear.x + 20;
               }.bind(this), 500);
             }
@@ -319,22 +337,6 @@
 
       }
     </script>
-    <style type="text/css">
-      body { margin: 0; }
-
-      #enchant-stage {
-            position: absolute;
-            width: 380px;
-            height: 380px;
-            /*
-            margin: 0 auto;
-            text-align: left;
-            */
-            left: calc(50% - 190px);
-            top: calc(50% - 190px);
-           
-        }
-    </style>
   </head>
   <body>
        <div id="stage">
