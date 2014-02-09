@@ -10,11 +10,17 @@
       
       var jumpKey = false;
       var startKey = false;
+      var actionKey = false;
       window.addEventListener('touchstart', function(e){
         if ( !startKey ) {
           startKey = true;
         } else {
           jumpKey = true;
+        }
+      }, false);
+      window.addEventListener('keydown', function(e){
+        if ( e.keyCode === 13 ) {
+          actionKey = true;
         }
       }, false);
 
@@ -95,10 +101,11 @@
             bear.vx = ax;
             
             // bear.vx = Math.min(Math.max(bear.vx, -10), 10);
-            if((game.input.up || jumpKey) && !bear.jumping) {
+            if( ((game.input.up || jumpKey) && !bear.jumping) || actionKey ) {
               bear.vy = -JUMP_POWER;
               bear.jumping = true;
               jumpKey = false;
+              actionKey = false;
             }
             bear.vy += GRAVITY;
             
