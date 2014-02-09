@@ -16,6 +16,8 @@
 
     ASSET_SOUND_BGM: "sound/bgm1.mp3",
     ASSET_SOUND_GANEOVER: "sound/gameover.mp3",
+    ASSET_SOUND_HIT: "sound/hit.wav",
+
     sound_get_coin: null,
     sound_game_bgm: null,
     sound_gameOver: null,
@@ -26,6 +28,7 @@
     setSoundAsset: function () {
         helper.sound_game_bgm = new Audio(helper.ASSET_SOUND_BGM);
         helper.sound_gameOver = new Audio(helper.ASSET_SOUND_GANEOVER);
+        helper.sound_hit = new Audio(helper.ASSET_SOUND_HIT);
     },
 
     loadBackGroundPicture: function (game) {

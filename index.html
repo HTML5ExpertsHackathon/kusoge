@@ -30,7 +30,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
+        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png", "sound/hit.wav");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -135,7 +135,10 @@
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
               // console.log('x hit');
             }
+
+            // カエルとの当たり判定
             if (dx + PLAYER_SIZE + 5 > frog.x && Math.abs(dy - frog.y) < PLAYER_SIZE * 0.8) {
+              helper.sound_hit.play();
               frog.ddx = 0;
               dx -=10;
             }
@@ -244,7 +247,11 @@
             this.y = dy;
 
             if(this.y - this.height> game.height) {
-              this.y = 0;
+              setTimeout(function(){
+                this.y = 0;
+                this.vy = GRAVITY;
+                this.x = bear.x + 20;
+              }.bind(this), 500);
             }
             
 
