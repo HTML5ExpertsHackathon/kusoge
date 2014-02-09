@@ -65,6 +65,7 @@
           map.image = game.assets["img/map2.gif"];
           map.loadData(blocks);
           
+        　//osamum wrote. 背景画像の挿入
           helper.loadBackGroundPicture(game);
 
 
@@ -106,6 +107,9 @@
               bear.jumping = true;
               jumpKey = false;
               actionKey = false;
+              
+              //osamum wrote ♪ 表示
+              helper.showNote(bear.x + 32, bear.y - 32);
             }
             bear.vy += GRAVITY;
             
@@ -123,6 +127,8 @@
             bear.y = dy;
               // console.log(bear.x + stage.x, bear.y -192);
 
+          
+        
             //osamum wrote コインを取得する
             var coinCount = helper.ctrl_coins.length;
             for (var i = 0; i < coinCount; i++) {
@@ -172,12 +178,17 @@
             if ( startKey && stageWidth + stage.x > game.width) {
               stage.x -= GAME_SPEED;
             }
+
+            //osamum wrote. ♪ 追加
+            helper.addNote(stage);
+
           });
           
           game.rootScene.addChild(stage);
 
         　//osamum wrote.
           helper.addLabel();
+         
           helper.addCoin(game, stage, 300, 3);
           helper.addCoin(game, stage, 800, 3);
           helper.addCoin(game, stage, 1500, 2);
