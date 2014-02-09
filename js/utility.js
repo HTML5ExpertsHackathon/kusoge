@@ -13,9 +13,20 @@
     ctrl_scoreLabel: null,
     ctrl_coins: [],
     ctrl_note: null,
+
+    ASSET_SOUND_BGM: "sound/bgm1.mp3",
+    ASSET_SOUND_GANEOVER: "sound/gameover.mp3",
     sound_get_coin: null,
+    sound_game_bgm: null,
+    sound_gameOver: null,
 
     got_coins_count: 0,
+
+
+    setSoundAsset: function () {
+        helper.sound_game_bgm = new Audio(helper.ASSET_SOUND_BGM);
+        helper.sound_gameOver = new Audio(helper.ASSET_SOUND_GANEOVER);
+    },
 
     loadBackGroundPicture: function (game) {
         var bgPicture = new Sprite(320, 320);
