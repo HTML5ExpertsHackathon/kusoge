@@ -3,6 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>enchant</title>
+    <style type="text/css">
+      body { margin: 0; background: #000;}
+
+      #enchant-stage {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+        /*
+            margin: 0 auto;
+            text-align: left;
+            */
+            left: calc(50% - 190px);
+            top: 50px; /*calc(50% - 190px);*/
+           
+        }
+    </style>
+
     <script type="text/javascript" src="js/enchant.min.js"></script>
     <script src="remote/libs/peer.js"></script>
       <script src="js/utility.js"></script>
@@ -320,13 +337,11 @@
 
       }
     </script>
-    <style type="text/css">
-      body { margin: 0; background: #000;}
-
-    </style>
   </head>
   <body>
-
+       <div id="stage">
+        <div id="enchant-stage"></div>
+    </div>
   </body>
   <script src="js/skywayGameBinder.js"></script>
 </html>
