@@ -80,10 +80,17 @@
           bear.pose = 0;
           bear.jumping = false;
           bear.falling = false;
+
+          var title = new Sprite(240, 150);
+          title.image = game.assets["image/title.png"];
+          title.x = (game.width - title.width) / 2;
+          title.y = (game.height - title.height) / 2;  
+
           bear.addEventListener(Event.ENTER_FRAME, function(e) {
             var ax = 0;
             if ( startKey || game.input.right ) {
               startKey = true;
+              title.opacity = 0;
               if ( stage.x + bear.x < MAP_SIZE * 3 ) {
                 ax = GAME_SPEED * 1.2;
               } else {
@@ -255,6 +262,7 @@
           stage.addChild(map);
           stage.addChild(bear);
           stage.addChild(frog);
+          stage.addChild(title);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
             if ( startKey && stageWidth + stage.x > game.width ) {
               stage.x -= GAME_SPEED;
