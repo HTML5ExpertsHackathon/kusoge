@@ -28,7 +28,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png");
+        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "img/bird.jpg");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -65,6 +65,7 @@
           map.image = game.assets["img/map2.gif"];
           map.loadData(blocks);
           
+        　//osamum wrote. 背景画像の挿入
           helper.loadBackGroundPicture(game);
 
 
@@ -110,6 +111,9 @@
               bear.jumping = true;
               jumpKey = false;
               actionKey = false;
+              
+              //osamum wrote ♪ 表示
+              helper.showNote(bear.x + 32, bear.y - 32);
             }
             bear.vy += GRAVITY;
             
@@ -130,6 +134,8 @@
             bear.y = dy;
               // console.log(bear.x + stage.x, bear.y -192);
 
+          
+        
             //osamum wrote コインを取得する
             var coinCount = helper.ctrl_coins.length;
             for (var i = 0; i < coinCount; i++) {
@@ -173,20 +179,69 @@
             }
           });
           
+          var bird = new Sprite(92, 66);
+          bird.image = game.assets["img/bird.jpg"];
+          bird.x = MAP_SIZE * 3;
+          bird.vx = 0;
+          bird.vy = MAP_SIZE * 6;
+          bird.y = MAP_SIZE * 3;
+          bird.pose = 0;
+          bird.jumping = false;
+          bird.count = 0;
+          bird.addEventListener(Event.ENTER_FRAME, function(e) {
+            var ax = 0;
+            if ( startKey || game.input.right ) {
+              startKey = true;
+              ax = GAME_SPEED;
+            }
+            if (ax != 0) {
+              if (game.frame % 3 == 0) {
+                  this.pose++;
+                  this.pose %= 2;
+              }
+              this.frame = this.pose + 1;
+              this.count++;
+            } else {
+              this.frame = 0;
+            }
+            this.vx = ax;
+
+            var dx = this.x + this.vx + 5;
+            var dy = this.y + this.vy;
+            // if (map.hitTest(dx, dy + bear.height) || map.hitTest(dx + bear.width - 10, dy)) {
+            //   dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
+            //   bear.vy = 0;
+            //   bear.jumping = false;
+            // }
+            // if (map.hitTest(dx + bear.width - 10, dy)) {
+            //   dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
+            // }
+            this.x = dx - 5;
+            this.y = MAP_SIZE * (3 + 2 * Math.sin(Math.PI * this.count / 10));
+            
+
+          }.bind(bird));
+ 
 
           var stage = new Group();
           stage.addChild(map);
           stage.addChild(bear);
+          stage.addChild(bird);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
             if ( startKey && stageWidth + stage.x > game.width ) {
               stage.x -= GAME_SPEED;
             }
+
+            //osamum wrote. ♪ 追加
+            helper.addNote(stage);
+
           });
           
           game.rootScene.addChild(stage);
 
         　//osamum wrote.
           helper.addLabel();
+         
           helper.addCoin(game, stage, 300, 3);
           helper.addCoin(game, stage, 800, 3);
           helper.addCoin(game, stage, 1500, 2);

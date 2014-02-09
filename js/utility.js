@@ -7,9 +7,12 @@
     //同ラベルの位置
     SCORE_LABEL_POSITION_X: 10,
     SCORE_LABEL_POSITION_Y: 5,
+    NOTE_LABEL_POSITION_X: -20,
+    NOTE_LABEL_POSITION_Y: 0,
+    NOTE_LABEL_FONT: "18px Goudy Stout",
     ctrl_scoreLabel: null,
     ctrl_coins: [],
-
+    ctrl_note: null,
     sound_get_coin: null,
 
     got_coins_count: 0,
@@ -38,6 +41,19 @@
             stage.addChild(ctrl_coin);
             start_x += 25;
         }
+    },
+    addNote: function (stage) {
+        var note = helper.utility.createLabel("♪",
+                helper.SCORE_LABEL_FONT,
+                "black",
+                helper.NOTE_LABEL_POSITION_X,
+                helper.NOTE_LABEL_POSITION_Y);
+        stage.addChild(note);
+        helper.ctrl_note = note;
+    },
+    showNote: function (posX, posY) {
+        helper.ctrl_note.x = posX;
+        helper.ctrl_note.y = posY;
     },
     setScoreLabel: function (score) {
         helper.ctrl_scoreLabel.text = "SCORE:" + score;
