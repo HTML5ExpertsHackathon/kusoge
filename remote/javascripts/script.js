@@ -28,19 +28,27 @@ $(function(){
     }, 300);
   }
 
-  $(window).on("fft_delta", function(ev, data) {
-    var d = [];
-    for(var i = 0, l = data.length; i < l; i++) {
-      d.push(data[i] / 255);
-    }
-    var predict = classifier.predict(d);
-    if(predict.clap > 0) {
-      changeAciton("clap");
-    }
+  $(function(){
+    $("button").on("touchstart", function(ev){
+      var command = $(this).data("command");
+      if(connect) connect.send(command);
+    });
 
-    if(predict.whistle > 0) {
-      changeAciton("whistle");
-    }
+
+    $(window).on("fft_delta", function(ev, data) {
+      var d = [];
+      for(var i = 0, l = data.length; i < l; i++) {
+        d.push(data[i] / 255);
+      }
+      var predict = classifier.predict(d);
+      if(predict.clap > 0) {
+        changeAciton("clap");
+      }
+
+      if(predict.whistle > 0) {
+        changeAciton("whistle");
+      }
+    });
   });
 });
 
