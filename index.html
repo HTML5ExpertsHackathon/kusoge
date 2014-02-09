@@ -25,10 +25,11 @@
       }, false);
 
       window.onload = function() {
+        var isStarted = false;
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "image/map.png", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
+        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -158,8 +159,8 @@
             if ( bear.x + stage.x + bear.width < 0 || bear.y - bear.height > game.height ) {
               var scene = new Scene();
               scene.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-              var img = new Sprite(189, 97);
-              img.image = game.assets["img/gameover.png"];
+              var img = new Sprite(212, 148);
+              img.image = game.assets["image/gameover.png"];
               img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
@@ -169,13 +170,11 @@
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
 
               var scene = new Scene();
-
-              // ゲームオーバー画像を設定
-              var img = new Sprite(189, 97);                   // スプライトを作る
-              img.image = game.assets["img/gameover.png"];  // 画像を設定
-              img.x = (game.width - img.width) / 2;                                     // 横位置調整
+              var img = new Sprite(189, 97);
+              img.image = game.assets["image/gameover.png"];
+              img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
-              scene.addChild(img); // シーンに追加
+              scene.addChild(img);
               game.pushScene(scene);
             }
           });
@@ -268,6 +267,7 @@
           helper.addCoin(game, stage, 2500, 3)
         }
         game.start();
+
       }
     </script>
     <style type="text/css">
