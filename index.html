@@ -67,7 +67,8 @@
           
         　//osamum wrote. 背景画像の挿入
           helper.loadBackGroundPicture(game);
-
+          helper.setSoundAsset();
+          helper.sound_game_bgm.play();
 
           var bear = new Sprite(PLAYER_SIZE, PLAYER_SIZE);
           bear.image = game.assets["image/chara.png"];
@@ -111,10 +112,10 @@
               bear.vy = -JUMP_POWER;
               bear.jumping = true;
               jumpKey = false;
+                //osamum wrote ♪ 表示
+              if (actionKey) { helper.showNote(bear.x + 32, bear.y - 32) };
               actionKey = false;
               
-              //osamum wrote ♪ 表示
-              helper.showNote(bear.x + 32, bear.y - 32);
             }
             bear.vy += GRAVITY;
             
@@ -164,6 +165,9 @@
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
               game.pushScene(scene);
+              
+            　//osamum wrote ゲームオーバーサウンド
+              helper.sound_gameOver.play();
             }
             // ゲームクリア
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
