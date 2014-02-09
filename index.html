@@ -149,13 +149,22 @@
             //osamum wrote コインを取得する
             var coinCount = helper.ctrl_coins.length;
             for (var i = 0; i < coinCount; i++) {
-              if (bear.intersect(helper.ctrl_coins[i])) {
-                helper.ctrl_coins[i].y = -40;
-                var soundClone = game.assets["sound/coin05.mp3"].clone();
-                soundClone.play();
-                helper.got_coins_count++;
-                helper.setScoreLabel(helper.got_coins_count);
-              }
+                var currentCoin = helper.ctrl_coins[i];
+                if (bear.intersect(currentCoin)) {
+                    helper.ctrl_coins[i].y = -40;
+                    var soundClone = game.assets["sound/coin05.mp3"].clone();
+                    soundClone.play();
+                    helper.got_coins_count++;
+                    helper.setScoreLabel(helper.got_coins_count);
+                } else {
+                    if (game.frame % 3 == 0) {
+                        if (currentCoin.frame >= 2) {
+                            helper.ctrl_coins[i].frame = 0;
+                        } else {
+                            helper.ctrl_coins[i].frame++;
+                        }
+                    }
+                }
             }
 
             // ゲームオーバー
