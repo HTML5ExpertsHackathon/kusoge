@@ -30,7 +30,18 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
+        game.preload(
+          "image/chara.png",
+          "image/map.png",
+          "image/gameover.png",
+          "image/clear.png",
+          "image/title.png",
+          "img/coin.png",
+          "sound/coin05.mp3",
+          "img/back.png",
+          "image/frog.png",
+          "sound/hit.wav"
+        );
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -80,10 +91,17 @@
           bear.pose = 0;
           bear.jumping = false;
           bear.falling = false;
+
+          var title = new Sprite(240, 150);
+          title.image = game.assets["image/title.png"];
+          title.x = (game.width - title.width) / 2;
+          title.y = (game.height - title.height) / 2;  
+
           bear.addEventListener(Event.ENTER_FRAME, function(e) {
             var ax = 0;
             if ( startKey || game.input.right ) {
               startKey = true;
+              title.opacity = 0;
               if ( stage.x + bear.x < MAP_SIZE * 3 ) {
                 ax = GAME_SPEED * 1.2;
               } else {
@@ -135,7 +153,10 @@
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
               // console.log('x hit');
             }
+
+            // カエルとの当たり判定
             if (dx + PLAYER_SIZE + 5 > frog.x && Math.abs(dy - frog.y) < PLAYER_SIZE * 0.8) {
+              helper.sound_hit.play();
               frog.ddx = 0;
               dx -=10;
             }
@@ -185,8 +206,8 @@
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
 
               var scene = new Scene();
-              var img = new Sprite(189, 97);
-              img.image = game.assets["image/gameover.png"];
+              var img = new Sprite(211, 73);
+              img.image = game.assets["image/clear.png"];
               img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
@@ -253,7 +274,11 @@
             this.y = dy;
 
             if(this.y - this.height> game.height) {
-              this.y = 0;
+              setTimeout(function(){
+                this.y = 0;
+                this.vy = GRAVITY;
+                this.x = bear.x + 20;
+              }.bind(this), 500);
             }
             
 
@@ -264,6 +289,7 @@
           stage.addChild(map);
           stage.addChild(bear);
           stage.addChild(frog);
+          stage.addChild(title);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
             if ( startKey && stageWidth + stage.x > game.width ) {
               stage.x -= GAME_SPEED;
