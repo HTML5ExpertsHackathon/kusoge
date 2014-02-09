@@ -28,7 +28,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "img/bird.jpg");
+        game.preload("image/chara.png", "img/map2.gif", "img/gameover.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -173,16 +173,17 @@
             }
           });
           
-          var bird = new Sprite(92, 66);
-          bird.image = game.assets["img/bird.jpg"];
-          bird.x = MAP_SIZE * 3;
-          bird.vx = 0;
-          bird.vy = MAP_SIZE * 6;
-          bird.y = MAP_SIZE * 3;
-          bird.pose = 0;
-          bird.jumping = false;
-          bird.count = 0;
-          bird.addEventListener(Event.ENTER_FRAME, function(e) {
+          var frog = new Sprite(32, 32);
+          frog.image = game.assets["image/frog.png"];
+          frog.x = MAP_SIZE * 4;
+          frog.vx = 0;
+          frog.vy = MAP_SIZE;
+          frog.y = MAP_SIZE * 3;
+          frog.pose = 0;
+          frog.jumping = false;
+          frog.count = 0;
+          frog.ddx = 1;
+          frog.addEventListener(Event.ENTER_FRAME, function(e) {
             var ax = 0;
             if ( startKey || game.input.right ) {
               startKey = true;
@@ -200,27 +201,42 @@
             }
             this.vx = ax;
 
+            if(!this.jumping) {
+              this.vy = -JUMP_POWER;
+              this.jumping = true;
+            }
+            this.vy += GRAVITY;
+
             var dx = this.x + this.vx + 5;
             var dy = this.y + this.vy;
-            // if (map.hitTest(dx, dy + bear.height) || map.hitTest(dx + bear.width - 10, dy)) {
-            //   dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
-            //   bear.vy = 0;
-            //   bear.jumping = false;
-            // }
-            // if (map.hitTest(dx + bear.width - 10, dy)) {
-            //   dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
-            // }
-            this.x = dx - 5;
-            this.y = MAP_SIZE * (3 + 2 * Math.sin(Math.PI * this.count / 10));
+            if (map.hitTest(dx, dy + this.height)) {
+              dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
+              this.vy = 0;
+              this.jumping = false;
+              var ddx_ = Math.random();
+              if(this.x < MAP_SIZE * 2) {
+                this.ddx = ddx_;
+              } else if(this.x > MAP_SIZE * 4) {
+                this.ddx = -1 * ddx_;
+              } else {
+                this.ddx = this.ddx > 0 ? -1 * ddx_ : ddx_;
+              }
+            }
+            this.x = dx + this.ddx - 5;
+            this.y = dy;
+
+            if(this.y - this.height> game.height) {
+              this.y = 0;
+            }
             
 
-          }.bind(bird));
+          });
  
 
           var stage = new Group();
           stage.addChild(map);
           stage.addChild(bear);
-          stage.addChild(bird);
+          stage.addChild(frog);
           stage.addEventListener(Event.ENTER_FRAME, function(e) {
             if ( startKey && stageWidth + stage.x > game.width ) {
               stage.x -= GAME_SPEED;
