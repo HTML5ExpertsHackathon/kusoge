@@ -30,7 +30,7 @@
         game = new Game(320, 320);
         game.keybind(32, 'up');
         game.fps = 24;
-        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
+        game.preload("image/chara.png", "image/map.png", "image/gameover.png", "image/clear.png", "image/title.png", "img/coin.png", "sound/coin05.mp3", "img/back.png", "image/frog.png");
         game.onload = function() {
           var blocks = [
             [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -172,8 +172,8 @@
             if ( stage.x + bear.x > (game.width - bear.width) / 2) {
 
               var scene = new Scene();
-              var img = new Sprite(189, 97);
-              img.image = game.assets["image/gameover.png"];
+              var img = new Sprite(211, 73);
+              img.image = game.assets["image/clear.png"];
               img.x = (game.width - img.width) / 2;
               img.y = (game.height - img.height) / 2;  
               scene.addChild(img);
