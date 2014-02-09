@@ -90,9 +90,9 @@
                   bear.pose++;
                   bear.pose %= 2;
               }
-              bear.frame = bear.pose + 1;
+              bear.frame = bear.pose;
             } else {
-              bear.frame = 0;
+              bear.frame = 2;
             }
             // if (bear.vx > 0.3)
             //   ax -= 0.3;
@@ -115,17 +115,17 @@
             
             var dx = bear.x + bear.vx;
             var dy = bear.y + bear.vy;
-            if (map.hitTest(dx, dy + bear.height) ) {
+            if (map.hitTest(dx, dy + bear.height) || map.hitTest(dx + (bear.width/2), dy)) {
               dy = Math.floor(dy / MAP_SIZE) * MAP_SIZE;
               bear.vy = 0;
               bear.jumping = false;
-              console.log('y hit');
+              // console.log('y hit');
             }
             if (map.hitTest(dx + bear.width, dy)) {
               dx = Math.floor(dx / MAP_SIZE) * MAP_SIZE;
-              console.log('x hit');
+              // console.log('x hit');
             }
-            console.log(dx, dy);
+            // console.log(dx, dy);
             bear.x = dx;
             bear.y = dy;
               // console.log(bear.x + stage.x, bear.y -192);
